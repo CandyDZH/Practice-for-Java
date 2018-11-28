@@ -1,0 +1,159 @@
+//// CSE 002-310
+//// hw08
+/// name: Zehong Deng
+/// Date: 2018-11-25
+/*
+ *This homework is about arrays and in searching single dimensional arrays
+ * It includes three method (linearSearch,binarySearch,randomScrambling) for CSE2 final grade array.
+ */
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Random;
+
+public class CSE2Linear {
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int[] gradeList = new int[15];
+
+        //prompt the user to input 15 grade into the array
+        System.out.println("Enter 15 ascending ints for final grades in CSE2: ");
+        for(int i= 0; i < gradeList.length; i ++){
+
+            while(scan.hasNextInt()==false){
+                System.out.println("Error Message: wrong input type.");
+                System.out.println("Please enter again:");
+                scan.next();
+            }
+            gradeList[i]=scan.nextInt();
+
+            while(gradeList[i]<0||gradeList[i]>100){
+                System.out.print("Error Message: input out of range.");
+                System.out.println("Please enter again:");
+                gradeList[i]=scan.nextInt();
+            }
+            if(i!=0){
+                while(gradeList[i]<gradeList[i-1]){
+                    System.out.print("Error Message: should not be smaller than the previous one.");
+                    System.out.println("Please enter again:");
+                    gradeList[i]=scan.nextInt();
+                }
+            }
+        }
+
+        //Print out for test
+        System.out.print("The stored array is: ");
+        for(int i= 0; i < gradeList.length; i ++){
+            System.out.print(gradeList[i]+" ");
+        }
+
+
+        int result1= binarySearch(gradeList);
+        gradeList=randomScrambling(gradeList);
+        //Test
+        //gradeList=randomScrambling(gradeList);
+        //gradeList=randomScrambling(gradeList);
+        int result2 = linearSearch(gradeList);
+
+
+    }//End of main
+
+    /*
+     *Linear Search Method
+     */
+    public static int linearSearch(int[] l1){
+        System.out.println("Linear Search");
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter a grade to search for: ");
+        int target = scan.nextInt();
+        int result = -1;
+        int literation = 0;
+        for(int i = 0; i < l1.length;i++){
+            literation++;
+            if(l1[i]==target){
+                result = i;
+                break;
+            }
+        }
+        if (result!=-1){
+            System.out.println(target + " is found in the list with "+ literation + " literation");
+        }
+        else{
+            System.out.println(target + " is not found in the list with "+ literation + " literation");
+        }
+        return result;
+    }//End of linear search method
+
+
+    /*
+     *Binary Search Method
+     */
+    public static int binarySearch(int[] l1){
+        //Test
+        System.out.println("Binary Search");
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter a grade to search for: ");
+        int target = scan.nextInt();
+        int result = -1;
+        int size = l1.length;
+        int mid = l1.length/2;
+        int literation = 0;
+
+        while(size>=1){
+            literation++;
+            if (l1[mid] == target) {
+                result = mid;
+                break;
+            }
+            if (l1[mid] > target){
+                size=size-(size/2);
+                mid=size/2;
+            }
+            else if(l1[mid] < target){
+                size=l1.length-mid-1;
+                mid=(l1.length+mid)/2;
+            }
+        }
+        if (result!=-1){
+            System.out.println(target + " is found in the list with "+ literation + " literation");
+        }
+        else{
+            System.out.println(target + " is not found in the list with "+ literation + " literation");
+        }
+        return result;
+    }//End of binary search method
+
+
+    /*
+     *Random Scrambling Method
+     */
+    public static int[] randomScrambling(int[] l1){
+        System.out.println();
+        System.out.println("Scrambled:");
+        Random rand = new Random();
+
+        int randomIndex = 0;
+        for (int k = 0; k < l1.length; k ++) {
+            randomIndex = rand.nextInt(l1.length-1) +1;
+            //switch two String in the array
+            int temp = l1[k];
+            l1[k] = l1 [randomIndex];
+            l1[randomIndex] = temp;
+        }
+        //Print out for test
+        System.out.print("The stored array is: ");
+        for(int i= 0; i < l1.length; i ++){
+            System.out.print(l1[i]+" ");
+        }
+        return l1;
+    }//End of random scrambling search method
+
+            }//End of the Class
+
+
+
+
+
+
+
